@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Energy Awareness Portal — CSP Project By B.Tech Students</title>
+<style>
+/* ============================================================
+   EDITABLE SETTINGS — change these to customise the portal
+   ============================================================ */
+:root {
+  --accent:        #0d8ebade;   /* Main solar-gold accent — change to any colour */
+  --accent2:       #0ea5e9;   /* Sky-blue accent */
+  --bg-page:       #080e23;   /* Page background */
+  --bg-card:       #0a162f;   /* Card background */
+  --bg-card2:      #051233;   /* Secondary card */
+  --bg-nav:        #0f1325;   /* Nav bar */
+  --text-primary:  #f0f4ff;   /* Main text */
+  --text-sec:      #8b9ab8;   /* Muted text */
+  --text-hint:     #4a5878;   /* Hint text */
+  --border:        rgba(255,255,255,0.07); /* Card borders */
+  --border-hover:  rgba(255,176,32,0.3);   /* Hover border */
+  --font:          'Segoe UI', system-ui, sans-serif;
+  --font-mono:     'Consolas', 'Courier New', monospace;
+
+  /* EDITABLE: Project info shown in hero */
+  --project-name:  "Solar Energy Awareness Portal";
+  --college-name:  "GATES INSTITUTE OF TECHNOLOGY GOOTY";
+  --batch:         "B.Tech CSE 2024–28";
+}
+/* ============================================================ */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg-page);color:var(--text-primary);min-height:100vh}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg-page)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+/* NAV */
+.topbar{background:var(--bg-nav);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:0;padding:0 1rem;overflow-x:auto;scrollbar-width:none}
+.topbar::-webkit-scrollbar{display:none}
+.logo{font-size:13px;font-family:var(--font-mono);color:var(--accent);padding:0 1rem 0 0;border-right:1px solid var(--border);margin-right:.5rem;white-space:nowrap;flex-shrink:0}
+.navbtn{padding:14px 16px;font-size:12px;font-family:var(--font-mono);color:var(--text-sec);background:none;border:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s;letter-spacing:.04em}
+.navbtn:hover{color:var(--text-primary)}
+.navbtn.act{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0d1a30 0%,#0b0f1a 60%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,176,32,.10),transparent 70%)}
+.hero::after{content:'';position:absolute;left:40%;bottom:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,.05),transparent 70%)}
+.hbadge{display:inline-block;background:rgba(255,176,32,.12);border:1px solid rgba(255,176,32,.25);color:var(--accent);font-size:11px;font-family:var(--font-mono);padding:4px 14px;border-radius:20px;margin-bottom:1rem;letter-spacing:.05em}
+.htitle{font-size:clamp(22px,4vw,36px);font-weight:700;color:var(--text-primary);line-height:1.2;margin-bottom:.6rem;position:relative;z-index:1}
+.htitle span{color:var(--accent)}
+.hsub{font-size:14px;color:var(--text-sec);line-height:1.7;max-width:560px;position:relative;z-index:1}
+.hstats{display:flex;gap:2rem;margin-top:1.75rem;flex-wrap:wrap;position:relative;z-index:1}
+.hstat .n{font-size:26px;font-weight:700;color:var(--text-primary);font-family:var(--font-mono);line-height:1}
+.hstat .l{font-size:11px;color:var(--text-sec);margin-top:3px;letter-spacing:.04em}
+.hteam{margin-top:1.5rem;font-size:12px;color:var(--text-hint);font-family:var(--font-mono)}
+.hteam span{color:var(--accent)}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+
+/* SECTION */
+.section{display:none}.section.show{display:block}
+.seclabel{font-size:11px;font-family:var(--font-mono);color:var(--text-hint);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.875rem}
+
+/* SECTOR TABS */
+.streamrow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:.5rem}
+.stab{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:.875rem .5rem;cursor:pointer;text-align:center;transition:all .15s}
+.stab:hover{border-color:var(--border-hover)}
+.stab.act{border-color:var(--accent);background:rgba(255,176,32,.08)}
+.stab .si{font-size:22px;margin-bottom:5px}
+.stab .sn{font-size:12px;font-weight:500;color:var(--text-primary);line-height:1.3}
+.stab .sd{font-size:11px;color:var(--text-sec);margin-top:2px}
+
+/* SOLUTION CARDS */
+.ccard{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.1rem;margin-bottom:10px;cursor:pointer;transition:border-color .15s}
+.ccard:hover{border-color:var(--border-hover)}
+.ccard.open{border-color:var(--accent)}
+.crow{display:flex;align-items:center;gap:11px}
+.cicn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ctitle{font-size:14px;font-weight:500;color:var(--text-primary);flex:1}
+.cbadge{font-size:11px;padding:3px 10px;border-radius:20px;font-family:var(--font-mono);background:rgba(255,176,32,.12);color:var(--accent);white-space:nowrap}
+.carr{color:var(--text-hint);font-size:14px;transition:transform .2s}
+.ccard.open .carr{transform:rotate(90deg)}
+.cdetail{display:none;margin-top:.875rem;padding-top:.875rem;border-top:1px solid var(--border)}
+.ccard.open .cdetail{display:block}
+.csub{font-size:13px;color:var(--text-sec);line-height:1.7;margin-bottom:.875rem}
+.dtags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.875rem}
+.dtag{font-size:11px;padding:3px 10px;border-radius:20px;font-family:var(--font-mono);border:1px solid}
+.tblue{background:rgba(14,165,233,.1);border-color:rgba(14,165,233,.3);color:#38bdf8}
+.tgreen{background:rgba(0,200,150,.1);border-color:rgba(0,200,150,.3);color:#00c896}
+.tamber{background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.3);color:#fbbf24}
+.tpurple{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:#a78bfa}
+.tcoral{background:rgba(251,113,133,.1);border-color:rgba(251,113,133,.3);color:#fb7185}
+.tgray{background:rgba(148,163,184,.1);border-color:rgba(148,163,184,.3);color:#94a3b8}
+
+.dg2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.875rem}
+.dbox{background:var(--bg-card2);border-radius:10px;padding:.75rem;border:1px solid var(--border)}
+.dh{font-size:11px;font-family:var(--font-mono);margin-bottom:.5rem;font-weight:500}
+.dh.g{color:var(--accent)}.dh.r{color:#fb7185}
+.drow{font-size:12px;color:var(--text-sec);display:flex;gap:6px;margin-bottom:4px;line-height:1.5}
+.drow.g::before{content:'▸';color:var(--accent);flex-shrink:0}
+.drow.r::before{content:'▸';color:#fb7185;flex-shrink:0}
+
+.scopebar{margin-bottom:.5rem}
+.sbrow{display:flex;justify-content:space-between;margin-bottom:4px}
+.sbrow span{font-size:11px;color:var(--text-sec)}
+.sbrow strong{font-size:11px;color:var(--text-primary)}
+.bar{height:5px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.bf{height:100%;border-radius:4px;background:var(--accent);transition:width 1s ease}
+
+/* ROADMAP */
+.rmsteps{position:relative;padding-left:24px}
+.rmstep{position:relative;margin-bottom:1.1rem}
+.rmstep::before{content:'';position:absolute;left:-18px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg-page);box-shadow:0 0 0 2px var(--accent)}
+.rmstep::after{content:'';position:absolute;left:-14px;top:15px;width:2px;height:calc(100% + 4px);background:rgba(255,176,32,.2)}
+.rmstep:last-child::after{display:none}
+.ryear{font-size:11px;font-family:var(--font-mono);color:var(--accent);margin-bottom:2px}
+.rtitle{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:3px}
+.rdesc{font-size:13px;color:var(--text-sec);line-height:1.6}
+
+/* QUIZ */
+.qwrap{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:1.75rem}
+.qpbar{height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-bottom:1.25rem;overflow:hidden}
+.qpfill{height:100%;background:var(--accent);border-radius:4px;transition:width .4s}
+.qnum{font-size:11px;font-family:var(--font-mono);color:var(--text-hint);margin-bottom:.5rem}
+.qtext{font-size:16px;font-weight:500;color:var(--text-primary);margin-bottom:1.25rem;line-height:1.55}
+.qopts{display:flex;flex-direction:column;gap:8px}
+.qopt{background:var(--bg-card2);border:1px solid var(--border);border-radius:10px;padding:.875rem 1.1rem;cursor:pointer;font-size:13px;color:var(--text-sec);transition:all .15s;text-align:left;font-family:var(--font)}
+.qopt:hover{border-color:var(--border-hover);color:var(--text-primary)}
+.qopt.sel{border-color:var(--accent);background:rgba(255,176,32,.08);color:var(--text-primary)}
+.qnext{margin-top:1.1rem;background:var(--accent);color:#06151a;border:none;border-radius:10px;padding:.7rem 1.75rem;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:opacity .2s}
+.qnext:disabled{opacity:.3;cursor:not-allowed}
+.qresult{text-align:center;padding:1rem 0}
+.qresult .big{font-size:48px;margin-bottom:.75rem}
+.qresult .rtitle{font-size:20px;font-weight:700;color:var(--accent);margin-bottom:.75rem}
+.qresult .rsub{font-size:14px;color:var(--text-sec);line-height:1.7;margin-bottom:1.25rem;max-width:500px;margin-left:auto;margin-right:auto}
+.qresult .retake{background:transparent;border:1px solid rgba(255,176,32,.35);color:var(--accent);border-radius:10px;padding:.55rem 1.25rem;font-size:13px;cursor:pointer;font-family:var(--font)}
+
+/* SCHEMES */
+.schcard{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.1rem;margin-bottom:10px}
+.schhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:.5rem}
+.schtitle{font-size:14px;font-weight:500;color:var(--text-primary)}
+.schamt{font-size:11px;font-family:var(--font-mono);color:var(--accent);background:rgba(255,176,32,.1);border:1px solid rgba(255,176,32,.2);padding:3px 10px;border-radius:20px;white-space:nowrap;text-align:right}
+.schdesc{font-size:13px;color:var(--text-sec);line-height:1.6;margin-bottom:.5rem}
+.scheli{font-size:12px;color:var(--text-hint)}
+.scheli strong{color:var(--text-sec)}
+
+/* CHAMPIONS */
+.mentcard{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.1rem;margin-bottom:10px;display:flex;gap:14px}
+.mavatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;letter-spacing:.03em}
+.mname{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:2px}
+.mrole{font-size:12px;color:var(--text-sec);margin-bottom:.6rem}
+.mqoute{font-size:13px;color:var(--text-sec);line-height:1.6;font-style:italic;border-left:2px solid var(--accent);padding-left:.875rem;margin-bottom:.5rem}
+.mtopic{font-size:11px;font-family:var(--font-mono);color:var(--accent)}
+
+/* GRID LAYOUTS */
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:1.5rem}
+.mcard{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.1rem}
+.mcard .ml{font-size:11px;color:var(--text-hint);margin-bottom:4px;font-family:var(--font-mono)}
+.mcard .mv{font-size:22px;font-weight:700;color:var(--text-primary);line-height:1}
+.mcard .ms{font-size:12px;color:var(--text-sec);margin-top:3px}
+
+/* TIPS */
+.tip{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:.875rem 1.1rem;margin-bottom:8px;font-size:13px;color:var(--text-sec);line-height:1.65}
+.tip strong{color:var(--text-primary);font-weight:500}
+
+/* FOOTER */
+.footer{text-align:center;padding:2rem;font-size:12px;color:var(--text-hint);border-top:1px solid var(--border);margin-top:3rem;font-family:var(--font-mono)}
+.footer span{color:var(--accent)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .streamrow{grid-template-columns:repeat(2,1fr)}
+  .dg2{grid-template-columns:1fr}
+  .hstats{gap:1.25rem}
+  .main{padding:1.5rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     EDITABLE: Change team names below
+     ===================================================== -->
+<div class="topbar">
+  <div class="logo">CSP PROJECT</div>
+  <button class="navbtn act" onclick="showPage('solutions')">01 · Solar Solutions</button>
+  <button class="navbtn" onclick="showPage('roadmap')">02 · Roadmap</button>
+  <button class="navbtn" onclick="showPage('quiz')">03 · Quiz</button>
+  <button class="navbtn" onclick="showPage('schemes')">04 · Govt Schemes</button>
+  <button class="navbtn" onclick="showPage('champions')">05 · Champions</button>
+</div>
+
+<div class="hero">
+  <div class="hbadge">CSP PROJECT · BY · B.TECH STUDENTS</div>
+  <!-- EDITABLE: Change the title and subtitle below -->
+  <h1 class="htitle">Solar Energy <span>Awareness</span></h1>
+  <p class="hsub">
+    A comprehensive guide to solar energy — covering home, farm, industry and national-scale applications,
+    real government schemes, and the people already living on solar power across India.
+  </p>
+  <div class="hstats">
+    <div class="hstat"><div class="n">8</div><div class="l">SECTORS</div></div>
+    <div class="hstat"><div class="n">32+</div><div class="l">SOLUTIONS</div></div>
+    <div class="hstat"><div class="n">150+</div><div class="l">GW SOLAR (INDIA)</div></div>
+    <div class="hstat"><div class="n">8</div><div class="l">CHAMPIONS</div></div>
+  </div>
+  <!-- EDITABLE: Change team members below -->
+  <div class="hteam">
+    Presented by <span>S.Amrin</span>
+    &nbsp;·&nbsp; <span>GATES INSTITUTE OF TECHNOLOGY GOOTY</span> &nbsp;·&nbsp; B.Tech CSE <span>2024–28</span>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ==================== SOLUTIONS PAGE ==================== -->
+<div id="page-solutions" class="section show">
+  <div class="seclabel">Where solar starts</div>
+  <div class="streamrow" style="margin-bottom:8px">
+    <div class="stab act" onclick="selectSector('home')" id="stab-home">
+      <div class="si">🏠</div><div class="sn">Residential</div><div class="sd">Home rooftop</div>
+    </div>
+    <div class="stab" onclick="selectSector('commercial')" id="stab-commercial">
+      <div class="si">🏭</div><div class="sn">Commercial</div><div class="sd">Industry / business</div>
+    </div>
+    <div class="stab" onclick="selectSector('agri')" id="stab-agri">
+      <div class="si">🌾</div><div class="sn">Agriculture</div><div class="sd">PM-KUSUM</div>
+    </div>
+    <div class="stab" onclick="selectSector('thermal')" id="stab-thermal">
+      <div class="si">☀️</div><div class="sn">Solar Thermal</div><div class="sd">Heat, not power</div>
+    </div>
+  </div>
+  <div class="seclabel">Where solar scales</div>
+  <div class="streamrow">
+    <div class="stab" onclick="selectSector('offgrid')" id="stab-offgrid">
+      <div class="si">💡</div><div class="sn">Off-Grid</div><div class="sd">Rural access</div>
+    </div>
+    <div class="stab" onclick="selectSector('utility')" id="stab-utility">
+      <div class="si">🌐</div><div class="sn">Utility-Scale</div><div class="sd">Parks &amp; floating</div>
+    </div>
+    <div class="stab" onclick="selectSector('mobility')" id="stab-mobility">
+      <div class="si">🚗</div><div class="sn">Mobility</div><div class="sd">EVs &amp; transport</div>
+    </div>
+    <div class="stab" onclick="selectSector('emerging')" id="stab-emerging">
+      <div class="si">🔬</div><div class="sn">Emerging Tech</div><div class="sd">Next-gen cells</div>
+    </div>
+  </div>
+  <div class="seclabel" id="solHeading" style="margin-top:1.5rem">Solar Solutions — Residential</div>
+  <div id="solList"></div>
+</div>
+
+<!-- ==================== ROADMAP PAGE ==================== -->
+<div id="page-roadmap" class="section">
+  <div class="seclabel">Where solar starts</div>
+  <div class="streamrow" style="margin-bottom:8px">
+    <div class="stab act" onclick="selectRoadmap('home')" id="rtab-home"><div class="si">🏠</div><div class="sn">Residential</div></div>
+    <div class="stab" onclick="selectRoadmap('commercial')" id="rtab-commercial"><div class="si">🏭</div><div class="sn">Commercial</div></div>
+    <div class="stab" onclick="selectRoadmap('agri')" id="rtab-agri"><div class="si">🌾</div><div class="sn">Agriculture</div></div>
+    <div class="stab" onclick="selectRoadmap('thermal')" id="rtab-thermal"><div class="si">☀️</div><div class="sn">Thermal</div></div>
+  </div>
+  <div class="seclabel">Where solar scales</div>
+  <div class="streamrow">
+    <div class="stab" onclick="selectRoadmap('offgrid')" id="rtab-offgrid"><div class="si">💡</div><div class="sn">Off-Grid</div></div>
+    <div class="stab" onclick="selectRoadmap('utility')" id="rtab-utility"><div class="si">🌐</div><div class="sn">Utility-Scale</div></div>
+    <div class="stab" onclick="selectRoadmap('mobility')" id="rtab-mobility"><div class="si">🚗</div><div class="sn">Mobility</div></div>
+    <div class="stab" onclick="selectRoadmap('emerging')" id="rtab-emerging"><div class="si">🔬</div><div class="sn">Emerging</div></div>
+  </div>
+  <div class="seclabel" id="rmHeading" style="margin-top:1.5rem">Roadmap — Going Solar at Home</div>
+  <div class="rmsteps" id="rmList"></div>
+</div>
+
+<!-- ==================== QUIZ PAGE ==================== -->
+<div id="page-quiz" class="section">
+  <div class="grid4">
+    <div class="mcard"><div class="ml">QUESTIONS</div><div class="mv">6</div><div class="ms">interest based</div></div>
+    <div class="mcard"><div class="ml">SECTORS COVERED</div><div class="mv">8</div><div class="ms">all of solar</div></div>
+    <div class="mcard"><div class="ml">RESULT</div><div class="mv">Instant</div><div class="ms">sector match</div></div>
+    <div class="mcard"><div class="ml">RETAKES</div><div class="mv">Unlimited</div><div class="ms">try again anytime</div></div>
+  </div>
+  <div class="qwrap">
+    <div class="qpbar"><div class="qpfill" id="qprog" style="width:0%"></div></div>
+    <div class="qnum" id="qnum">Question 1 of 6</div>
+    <div class="qtext" id="qtext"></div>
+    <div class="qopts" id="qopts"></div>
+    <div id="qresult" class="qresult" style="display:none"></div>
+    <button class="qnext" id="qnext" disabled onclick="nextQ()">Next →</button>
+  </div>
+</div>
+
+<!-- ==================== SCHEMES PAGE ==================== -->
+<div id="page-schemes" class="section">
+  <div class="seclabel">Government schemes &amp; subsidies driving solar adoption in India</div>
+  <div id="schList"></div>
+</div>
+
+<!-- ==================== CHAMPIONS PAGE ==================== -->
+<div id="page-champions" class="section">
+  <div class="seclabel">Real stories from people already living on solar power</div>
+  <div id="mentList"></div>
+</div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  Solar Energy Awareness Portal &nbsp;·&nbsp; <span>CSP Project</span> &nbsp;·&nbsp; B.Tech Students &nbsp;·&nbsp;
+  Figures sourced from MNRE / PIB / public reports, mid-2026 — for educational awareness only.
+</div>
+
+<script>
+/* ================================================================
+   DATA — EDITABLE: Add, remove or modify any solution/roadmap/etc.
+   ================================================================ */
+
+const SOLAR = {
+  home:{heading:'Solar Solutions — Residential',careers:[
+    {icon:'☀️',bg:'rgba(14,165,233,.15)',title:'Rooftop Grid-Tied (On-Grid) System',badge:'₹50K–2L',sub:'The most common home setup — panels feed your house first, surplus units flow to the grid via net metering, and you draw power back at night.',tags:[{t:'PM Surya Ghar',c:'tamber'},{t:'1–3 kW',c:'tblue'},{t:'Net Metering',c:'tgreen'}],scope:92,gains:['Up to ₹78,000 central subsidy','Up to 300 free units/month','Surplus units sold back to DISCOM','Payback in 4–6 years'],struggles:['Needs unshaded south-facing roof','DISCOM approval can be slow','Upfront cost before subsidy credit','Output drops on cloudy/monsoon days']},
+    {icon:'🔋',bg:'rgba(0,200,150,.15)',title:'Off-Grid Home System (Battery-based)',badge:'₹1.5–4L',sub:'Panels charge a battery bank instead of the grid — built for homes in areas with frequent outages or no grid connection at all.',tags:[{t:'No Grid Needed',c:'tblue'},{t:'Battery Storage',c:'tpurple'},{t:'Power Backup',c:'tgreen'}],scope:70,gains:['Works during grid outages','Total independence from DISCOM','Ideal for remote homes','No monthly electricity bill'],struggles:['Battery replacement every 5–8 yrs','Higher upfront cost than grid-tied','No subsidy for pure off-grid use','Limited backup during long cloudy spells']},
+    {icon:'⚡',bg:'rgba(251,191,36,.12)',title:'Hybrid Solar System (Grid + Battery)',badge:'₹2–6L',sub:'Best of both worlds — draws from solar first, switches to battery during a cut, and falls back to the grid only when needed.',tags:[{t:'Grid + Battery',c:'tpurple'},{t:'Smart Inverter',c:'tblue'},{t:'Backup + Savings',c:'tgreen'}],scope:78,gains:['Uninterrupted power supply','Still earns net-metering credit','Future-ready for EV charging','Smart app-based monitoring'],struggles:['Most expensive home option','Complex installation & wiring','Battery sizing needs expert advice','Limited subsidy coverage on battery cost']},
+    {icon:'🚿',bg:'rgba(167,139,250,.12)',title:'Solar Water Heater',badge:'₹15K–40K',sub:'Uses sunlight directly for heat, not electricity — flat-plate or evacuated-tube collectors warm water for daily household use.',tags:[{t:'Thermal, not PV',c:'tcoral'},{t:'100–300 LPD',c:'tblue'},{t:'Zero Running Cost',c:'tgreen'}],scope:80,gains:['No electricity bill for hot water','15–20 year lifespan','Simple, low-maintenance design','Works on a smaller budget too'],struggles:['Needs roof space for tank + collector','Less efficient in winter/cloudy spells','Freezing risk in very cold climates','Upfront cost higher than an electric heater']}
+  ]},
+  commercial:{heading:'Solar Solutions — Commercial & Industrial',careers:[
+    {icon:'🏭',bg:'rgba(14,165,233,.15)',title:'Captive Solar Power Plant',badge:'₹35–40/W',sub:'A factory or campus builds its own solar plant to power its own operations — generation and consumption under one roof.',tags:[{t:'CAPEX Model',c:'tblue'},{t:'Self-Consumption',c:'tgreen'},{t:'100kW+',c:'tamber'}],scope:88,gains:['40% accelerated depreciation in Yr 1','Locks in power cost for 25 years','Cuts grid dependency sharply','Strong ESG / sustainability reporting'],struggles:['High upfront capital needed','Requires dedicated roof or land','O&M team or contract required','ROI depends on plant load factor']},
+    {icon:'🤝',bg:'rgba(0,200,150,.15)',title:'Open Access / Group Captive Solar',badge:'Save 20–40%',sub:'Businesses too small for their own plant buy power from a shared solar park nearby through the grid, at a fixed lower tariff.',tags:[{t:'No CAPEX',c:'tgreen'},{t:'Third-Party PPA',c:'tblue'},{t:'1MW+ load',c:'tamber'}],scope:75,gains:['Zero installation investment','Immediate tariff savings','No roof or land needed','Flexible contract tenures'],struggles:['Needs minimum load eligibility','State open-access charges apply','Less control over supply quality','Approval process can be lengthy']},
+    {icon:'🅿️',bg:'rgba(251,191,36,.12)',title:'Solar Carports',badge:'Dual-use',sub:'Panels mounted over parking areas — shade for vehicles above, clean power generation below, with zero extra land use.',tags:[{t:'Space-Efficient',c:'tpurple'},{t:'EV-Ready',c:'tblue'},{t:'Malls / Offices',c:'tgreen'}],scope:65,gains:['No additional land required','Doubles as vehicle shade','Pairs naturally with EV chargers','Strong branding/CSR visibility'],struggles:['Higher structural cost per kW','Needs reinforced parking structure','Limited to large paved areas','Maintenance access can be tricky']},
+    {icon:'🏢',bg:'rgba(167,139,250,.12)',title:'Net-Metered Commercial Rooftop',badge:'4–6 yr payback',sub:'Office buildings, schools and hospitals install rooftop solar and net-meter with the DISCOM, just like a home but at a larger scale.',tags:[{t:'Net Metering',c:'tgreen'},{t:'10kW–1MW',c:'tblue'},{t:'CFA for Institutions',c:'tamber'}],scope:84,gains:['Govt CFA support for institutions','Predictable daytime load match','Reduces peak-hour electricity cost','Visible sustainability statement'],struggles:['Roof load-bearing checks needed','Institutional approvals take time','Performance drops with dust/shading','Inverter & wiring upgrades sometimes needed']}
+  ]},
+  agri:{heading:'Solar Solutions — Agriculture & Rural (PM-KUSUM)',careers:[
+    {icon:'💧',bg:'rgba(14,165,233,.15)',title:'PM-KUSUM Solar Irrigation Pump',badge:'60% Subsidy',sub:'Standalone solar pumps replace diesel irrigation pumps entirely — sunlight straight to water, no fuel, no grid dependency.',tags:[{t:'Component B',c:'tamber'},{t:'Up to 7.5HP',c:'tblue'},{t:'No Diesel',c:'tgreen'}],scope:90,gains:['Up to 60% central + state subsidy','Zero diesel cost forever','Reliable daytime irrigation','30% low-interest loan available'],struggles:['No power on cloudy days','Upfront farmer share still needed','Pump sizing must match the borewell','Maintenance awareness still low in villages']},
+    {icon:'🔌',bg:'rgba(0,200,150,.15)',title:'Feeder-Level Pump Solarisation',badge:'Component C',sub:'Existing grid-connected pumps are solarised at the feeder level — farmers keep their pumps, the power source turns solar.',tags:[{t:'Component C',c:'tblue'},{t:'Existing Pumps',c:'tgreen'},{t:'35 lakh target',c:'tamber'}],scope:73,gains:['No new pump purchase needed','Farmers can sell surplus power','Reduces DISCOM subsidy burden','Large-scale state rollout underway'],struggles:['Needs cluster-level coordination','Feeder infrastructure upgrades','Land needed for the solar array','Revenue-sharing model still evolving']},
+    {icon:'🚧',bg:'rgba(251,191,36,.12)',title:'Solar Fencing',badge:'₹15–25K/acre',sub:'A low-voltage solar-charged electric fence keeps stray animals out of fields without needing a grid connection at the boundary.',tags:[{t:'Crop Protection',c:'tcoral'},{t:'Low Voltage',c:'tblue'},{t:'Battery-backed',c:'tgreen'}],scope:68,gains:['Protects crops from wildlife','Works in remote unfenced fields','Low running cost after install','Simple for a farmer to maintain'],struggles:['Needs periodic battery check','Wire maintenance after storms','Initial cost burden on small farmers','Limited state subsidy in some regions']},
+    {icon:'❄️',bg:'rgba(167,139,250,.12)',title:'Solar Cold Storage',badge:'Off-grid',sub:'Small solar-powered cold rooms let farmers store perishables like vegetables and fruit near the farm, cutting post-harvest loss.',tags:[{t:'Post-Harvest',c:'tgreen'},{t:'5–10 MT',c:'tblue'},{t:'Rural Agro-processing',c:'tamber'}],scope:60,gains:['Cuts post-harvest spoilage sharply','No diesel generator needed','Extends produce shelf life','Opens better market timing for farmers'],struggles:['High upfront unit cost','Needs a trained local operator','Limited storage capacity per unit','Awareness & adoption still growing']}
+  ]},
+  thermal:{heading:'Solar Solutions — Solar Thermal',careers:[
+    {icon:'🍲',bg:'rgba(14,165,233,.15)',title:'Solar Cooker',badge:'Zero fuel cost',sub:'Box or parabolic cookers concentrate sunlight to cook food slowly through the day — no LPG, no electricity, no smoke.',tags:[{t:'Box / Parabolic',c:'tamber'},{t:'No Fuel',c:'tgreen'},{t:'Rural Kitchens',c:'tblue'}],scope:55,gains:['Completely free to run','No indoor air pollution','Very low maintenance','Affordable entry-level models'],struggles:['Slower cooking compared to gas','Needs direct sunlight to work','Not useful after dark or in monsoon','Limited to certain dish types']},
+    {icon:'🌾',bg:'rgba(0,200,150,.15)',title:'Solar Dryer (Agro-Processing)',badge:'₹20–60K',sub:'Enclosed solar dryers preserve grains, spices and fruit hygienically and faster than open sun-drying on the ground.',tags:[{t:'Food Preservation',c:'tgreen'},{t:'Hygienic Drying',c:'tblue'},{t:'SHG/FPO use',c:'tamber'}],scope:58,gains:['Faster, cleaner than open drying','Reduces spoilage & contamination','Adds value to farm produce','Good fit for women SHG enterprises'],struggles:['Output depends on sunny days','Needs covered, ventilated space','Initial training for best results','Limited batch size per unit']},
+    {icon:'🏗️',bg:'rgba(251,191,36,.12)',title:'Solar Air Heating (Industrial)',badge:'Industrial',sub:'Large solar air collectors preheat air for drying, curing or space heating in factories — cutting fuel use in process heat.',tags:[{t:'Process Heat',c:'tblue'},{t:'Textile / Food Industry',c:'tamber'},{t:'Fuel Saving',c:'tgreen'}],scope:50,gains:['Cuts industrial fuel bills','Reduces carbon footprint','Works alongside existing boilers','Long equipment lifespan'],struggles:['High installation footprint','Limited to specific industries','Needs engineering integration','Lower awareness among MSMEs']},
+    {icon:'🔥',bg:'rgba(167,139,250,.12)',title:'Concentrated Solar Thermal Power',badge:'Utility-scale',sub:'Mirrors concentrate sunlight to generate steam and run turbines, often paired with thermal storage for power after sunset.',tags:[{t:'Thermal Storage',c:'tblue'},{t:'MW-scale',c:'tcoral'},{t:'Desert Regions',c:'tpurple'}],scope:35,gains:['Can supply power after sunset','Long plant lifespan (25+ yrs)','Pairs well with thermal storage','Suited to high-sunlight desert regions'],struggles:['Higher cost than PV per MW','Needs very high direct sunlight','Limited deployment in India so far','Long construction timelines']}
+  ]},
+  offgrid:{heading:'Solar Solutions — Off-Grid & Rural Electrification',careers:[
+    {icon:'🏘️',bg:'rgba(14,165,233,.15)',title:'Solar Mini-Grid',badge:'Village-scale',sub:'A small local solar plant with battery storage and a mini distribution network powers an entire unconnected village or hamlet.',tags:[{t:'10–500 kW',c:'tblue'},{t:'Community-owned',c:'tgreen'},{t:'Battery-backed',c:'tpurple'}],scope:67,gains:['Brings power to unconnected areas','Enables local shops & livelihoods','Community ownership builds trust','Can later sync with the main grid'],struggles:['High setup & maintenance cost','Needs a trained local operator','Tariff collection can be difficult','Battery degradation over years']},
+    {icon:'💡',bg:'rgba(0,200,150,.15)',title:'Solar Home Lighting System (SHLS)',badge:'₹5–15K',sub:'A small panel, battery and a few LED lights bring basic lighting and mobile charging to homes with no grid connection.',tags:[{t:'Basic Lighting',c:'tgreen'},{t:'Mobile Charging',c:'tblue'},{t:'MNRE Subsidy',c:'tamber'}],scope:62,gains:['Affordable first step to electricity','Replaces kerosene lamps','Improves evening study hours','Quick, simple installation'],struggles:['Very limited power output','Small battery, short backup','Bulb/battery replacement needed','Not enough for fans/appliances']},
+    {icon:'🚏',bg:'rgba(251,191,36,.12)',title:'Solar Street Lighting',badge:'Govt Tenders',sub:'Standalone streetlights with an integrated panel and battery light up rural roads and public spaces without grid wiring.',tags:[{t:'Standalone Unit',c:'tblue'},{t:'Panchayat / Municipal',c:'tamber'},{t:'Auto Dusk-to-Dawn',c:'tgreen'}],scope:71,gains:['No trenching or cabling needed','Improves rural road safety','Low ongoing maintenance','Common in govt tender programmes'],struggles:['Theft/vandalism risk in some areas','Battery life limits long-term output','Pole & fitting quality varies','Needs periodic panel cleaning']},
+    {icon:'🔦',bg:'rgba(167,139,250,.12)',title:'Solar Lantern / Study Lamp',badge:'₹500–2K',sub:'The smallest, cheapest entry point — a portable solar lamp that charges by day and lights a room or study desk by night.',tags:[{t:'Portable',c:'tgreen'},{t:'Student Use',c:'tblue'},{t:'Lowest-Cost Entry',c:'tamber'}],scope:64,gains:['Extremely low cost','Helps students study after dark','No installation required','Widely distributed via NGOs/schools'],struggles:['Very short runtime per charge','Small battery wears out faster','Limited brightness for larger rooms','Often distributed with little usage guidance']}
+  ]},
+  utility:{heading:'Solar Solutions — Utility-Scale & Floating',careers:[
+    {icon:'🏞️',bg:'rgba(14,165,233,.15)',title:'Ground-Mounted Solar Park',badge:'MW-scale',sub:'Large tracts of land host thousands of panels feeding power directly into the state grid — India\'s biggest source of solar units.',tags:[{t:'50MW–2GW',c:'tblue'},{t:'SECI / State Tender',c:'tamber'},{t:'Grid-Connected',c:'tgreen'}],scope:95,gains:['Lowest cost per unit of solar power','Drives most of India\'s 150+ GW capacity','Long-term 25-year PPAs','Strong investor & PSU backing'],struggles:['Needs hundreds of acres of land','Land acquisition disputes possible','Transmission infrastructure lag','Long project gestation period']},
+    {icon:'🌊',bg:'rgba(0,200,150,.15)',title:'Floating Solar Plant',badge:'Water-saving',sub:'Panels float on reservoirs, canals and lakes — generating power without using farmland while also cutting water evaporation.',tags:[{t:'On Water Bodies',c:'tblue'},{t:'Evaporation Control',c:'tgreen'},{t:'Land-saving',c:'tamber'}],scope:58,gains:['No farmland or forest land used','Panels stay cooler, work better','Reduces water evaporation loss','Good fit for dam reservoirs/canals'],struggles:['Higher cost than ground-mounted','Anchoring & corrosion challenges','Maintenance access by boat only','Still a smaller share of total capacity']},
+    {icon:'🌬️',bg:'rgba(251,191,36,.12)',title:'Solar-Wind Hybrid Park',badge:'Hybrid',sub:'Solar and wind turbines share the same site and transmission line, generating power across more hours of the day.',tags:[{t:'Shared Infrastructure',c:'tpurple'},{t:'24-hr Profile',c:'tblue'},{t:'High Wind-Solar Sites',c:'tgreen'}],scope:62,gains:['Smoother, more predictable output','Shared land & grid connection costs','Better utilisation of transmission lines','Reduces overall intermittency'],struggles:['Needs sites good for both resources','More complex project design','Coordination between two technologies','Limited number of suitable sites']},
+    {icon:'📜',bg:'rgba(167,139,250,.12)',title:'Solar Power Purchase Agreements (PPA)',badge:'₹2–3/unit',sub:'Developers sign 25-year contracts to sell solar power to DISCOMs or businesses at a pre-fixed, often very low, tariff.',tags:[{t:'Long-term Contract',c:'tblue'},{t:'Fixed Tariff',c:'tgreen'},{t:'DISCOM/Corporate',c:'tamber'}],scope:85,gains:['Predictable revenue for developers','Cheapest power source for buyers','Bankable for project financing','Drives large-scale capacity growth'],struggles:['Tariffs locked even if costs change','DISCOM payment delays common','Renegotiation disputes occur','Curtailment risk during grid stress']}
+  ]},
+  mobility:{heading:'Solar Solutions — Solar Mobility',careers:[
+    {icon:'🔌',bg:'rgba(14,165,233,.15)',title:'Solar EV Charging Station',badge:'Emerging',sub:'Charging points powered partly or fully by on-site solar panels, often paired with battery storage for round-the-clock charging.',tags:[{t:'EV Infrastructure',c:'tblue'},{t:'Highway / Urban',c:'tgreen'},{t:'Battery-buffered',c:'tpurple'}],scope:66,gains:['Cuts grid load from EV charging','Lower running cost per charge','Strong policy push & funding','Good fit for highways & malls'],struggles:['High upfront infrastructure cost','Charging speed limited by panel size','Needs grid backup for night charging','Still an early-stage network in India']},
+    {icon:'🚗',bg:'rgba(0,200,150,.15)',title:'Solar-Powered Vehicles',badge:'R&D stage',sub:'Vehicles with integrated solar panels that trickle-charge the battery while parked or driving, extending range modestly.',tags:[{t:'Integrated PV',c:'tpurple'},{t:'Range Extension',c:'tblue'},{t:'Pilot Models',c:'tamber'}],scope:30,gains:['Free top-up charging while parked','Reduces range anxiety slightly','Active area of student innovation','Growing interest from EV startups'],struggles:['Small panel area limits gains','High cost of integrated panels','Not yet mainstream in India','Real-world benefit still modest']},
+    {icon:'🛣️',bg:'rgba(251,191,36,.12)',title:'Solar Highways & Pavements',badge:'Pilot stage',sub:'Experimental road surfaces and highway medians embedded with solar cells, aiming to generate power from unused road space.',tags:[{t:'Experimental',c:'tcoral'},{t:'Road Infrastructure',c:'tblue'},{t:'Global Pilots',c:'tamber'}],scope:18,gains:['Uses otherwise unused road space','Could power streetlights/signage directly','Interesting research & innovation space','Potential for future smart highways'],struggles:['Durability under traffic load unproven','Very high cost per unit of power','Few successful large-scale examples','Long way from commercial viability']},
+    {icon:'⛵',bg:'rgba(167,139,250,.12)',title:'Solar Boats & Ferries',badge:'Coastal',sub:'Solar panels on boat roofs power electric motors for ferries and small craft on rivers, lakes and calm coastal waters.',tags:[{t:'Inland Waterways',c:'tblue'},{t:'Zero Emission',c:'tgreen'},{t:'Tourism/Transit',c:'tamber'}],scope:40,gains:['Silent, pollution-free operation','Low running cost on regular routes','Good for tourist & ferry services','Suited to India\'s many inland waterways'],struggles:['Limited range & speed vs diesel boats','Higher upfront vessel cost','Needs mostly calm-water routes','Charging infrastructure still sparse']}
+  ]},
+  emerging:{heading:'Solar Solutions — Emerging Technologies',careers:[
+    {icon:'🔆',bg:'rgba(14,165,233,.15)',title:'Bifacial Solar Panels',badge:'+10–20% yield',sub:'Panels that capture sunlight on both sides — the front directly, and the back from light reflected off the ground or roof.',tags:[{t:'Dual-Sided',c:'tblue'},{t:'Commercially Available',c:'tgreen'},{t:'Utility & Rooftop',c:'tamber'}],scope:80,gains:['Higher energy yield per panel','Works well with reflective surfaces','Now mainstream in utility projects','Better lifetime value per rupee'],struggles:['Slightly higher upfront cost','Needs elevated, reflective mounting','Gains vary by site & ground reflectivity','Heavier than standard panels']},
+    {icon:'🧪',bg:'rgba(0,200,150,.15)',title:'Perovskite Solar Cells',badge:'Lab → Pilot',sub:'A newer cell material that promises higher efficiency and lower manufacturing cost than today\'s silicon panels — still maturing.',tags:[{t:'Next-Gen Material',c:'tpurple'},{t:'High Efficiency',c:'tblue'},{t:'R&D Stage',c:'tcoral'}],scope:25,gains:['Potentially much cheaper to manufacture','Higher theoretical efficiency than silicon','Can be made flexible/lightweight','Active global & Indian research area'],struggles:['Long-term durability still unproven','Sensitive to moisture & heat','Not yet mass-produced at scale','Years away from mainstream rooftops']},
+    {icon:'🏢',bg:'rgba(251,191,36,.12)',title:'Building-Integrated Photovoltaics (BIPV)',badge:'Architecture',sub:'Solar cells built directly into windows, facades and roofing materials, so the building itself becomes the power generator.',tags:[{t:'Solar Facades',c:'tblue'},{t:'Solar Glass',c:'tpurple'},{t:'Green Buildings',c:'tgreen'}],scope:35,gains:['No extra space needed for panels','Aesthetic, architecture-friendly design','Growing demand in green buildings','Adds value to new construction'],struggles:['Currently expensive vs standard panels','Lower efficiency than rooftop arrays','Needs specialised installers','Still a niche market in India']},
+    {icon:'🔋',bg:'rgba(167,139,250,.12)',title:'Solar + Battery Energy Storage (BESS)',badge:'24×7 power',sub:'Pairing solar generation with large battery banks so stored daytime power can be used at night or during peak demand.',tags:[{t:'Grid-Scale Storage',c:'tblue'},{t:'Round-the-clock',c:'tgreen'},{t:'Fast-growing',c:'tamber'}],scope:70,gains:['Solves solar\'s after-dark gap','Reduces grid curtailment losses','Enables firm, dispatchable solar power','Costs falling fast as scale grows'],struggles:['Battery cost still a major factor','Limited large-scale deployment so far','Safety & thermal management needs care','Supply chain still developing in India']}
+  ]}
+};
+
+const ROADMAPS = {
+  home:{heading:'Roadmap — Going Solar at Home',steps:[
+    {year:'Step 1',title:'Check Your Roof & Bill',desc:'Look for an unshaded, south-facing roof area and note your average monthly electricity consumption — this decides the system size you need.'},
+    {year:'Step 2',title:'Register on pmsuryaghar.gov.in',desc:'Create an account with your consumer number and electricity bill details on the national Surya Ghar portal to begin the subsidy process.'},
+    {year:'Step 3',title:'DISCOM Feasibility Approval',desc:'Your local DISCOM checks the technical feasibility of your roof and sanctioned load before giving the green light to install.'},
+    {year:'Step 4',title:'Choose a Vendor & Install',desc:'Pick an MNRE-empanelled vendor from the approved list. Installation of a typical 1–3 kW home system usually takes a few days.'},
+    {year:'Step 5',title:'Net Metering & Commissioning',desc:'The DISCOM installs a net meter and commissions the system, allowing surplus units to be exported to the grid.'},
+    {year:'Step 6',title:'Claim Subsidy & Save',desc:'Subsidy of up to ₹78,000 is credited directly to your bank account within 30–45 days, and you start enjoying up to 300 free units a month.'}
+  ]},
+  commercial:{heading:'Roadmap — Commercial & Industrial Solar',steps:[
+    {year:'Step 1',title:'Energy Audit',desc:'Study your load profile, peak demand and current per-unit electricity cost to estimate the right solar system size.'},
+    {year:'Step 2',title:'Pick a Financing Model',desc:'Decide between owning the plant outright (CAPEX, with accelerated depreciation benefits) or buying power via a zero-investment PPA (OPEX).'},
+    {year:'Step 3',title:'Site & Land Tie-up',desc:'Confirm rooftop load-bearing capacity, or arrange land/open-access for a larger off-site plant.'},
+    {year:'Step 4',title:'Statutory Approvals',desc:'Get clearances from the DISCOM, electrical inspector and, for larger plants, pollution and land-use authorities.'},
+    {year:'Step 5',title:'EPC Execution',desc:'A contractor designs, procures and constructs the plant, followed by testing and commissioning.'},
+    {year:'Step 6',title:'Operate & Track ROI',desc:'Monitor generation through a dashboard, maintain panels regularly, and track savings against the typical 4–6 year payback period.'}
+  ]},
+  agri:{heading:'Roadmap — Agriculture & Rural Solar (PM-KUSUM)',steps:[
+    {year:'Step 1',title:'Apply via State Nodal Agency',desc:'Register on the state renewable energy agency portal or through the PM-KUSUM scheme to express interest.'},
+    {year:'Step 2',title:'Choose Your Component',desc:'Component A for a small power plant on farmland, Component B for a new standalone pump, or Component C to solarise an existing pump.'},
+    {year:'Step 3',title:'Site Verification',desc:'Officials verify land or borewell details — Component A typically needs about 2–4 acres per MW of capacity.'},
+    {year:'Step 4',title:'Subsidy & Loan Approval',desc:'Up to 60% central and state subsidy is sanctioned, with an additional 30% available as a low-interest bank loan.'},
+    {year:'Step 5',title:'Installation',desc:'An empanelled vendor installs the pump or plant and connects it as per the approved design.'},
+    {year:'Step 6',title:'Irrigate & Earn',desc:'Start fuel-free irrigation, and where applicable, sell surplus electricity back to the DISCOM for extra income.'}
+  ]},
+  thermal:{heading:'Roadmap — Adopting Solar Thermal',steps:[
+    {year:'Step 1',title:'Identify the Heat Need',desc:'Decide whether you need hot water, cooking heat, drying capacity, or industrial process heat — each uses a different solar thermal design.'},
+    {year:'Step 2',title:'Size the System',desc:'Match collector or cooker size to daily usage — for example, litres of hot water needed per day for a home or hostel.'},
+    {year:'Step 3',title:'Choose the Right Technology',desc:'Flat-plate collectors suit moderate heat, evacuated tubes suit colder regions, and concentrators suit very high-temperature needs.'},
+    {year:'Step 4',title:'Installation & Insulation',desc:'Proper mounting angle and well-insulated piping or storage are essential to avoid heat loss.'},
+    {year:'Step 5',title:'Routine Maintenance',desc:'Periodic descaling, glass cleaning and checking for leaks keeps the system running at full efficiency.'},
+    {year:'Step 6',title:'Track Fuel Savings',desc:'Compare your LPG, electricity or diesel usage before and after — most users recover the investment within 2–4 years.'}
+  ]},
+  offgrid:{heading:'Roadmap — Off-Grid & Rural Electrification',steps:[
+    {year:'Step 1',title:'Survey Village Energy Needs',desc:'Assess how many households need power, for how many hours, and for what — lighting, charging, or small appliances.'},
+    {year:'Step 2',title:'Pick the Right Scale',desc:'A solar lantern fits one person, a home lighting system fits one house, and a mini-grid fits an entire hamlet.'},
+    {year:'Step 3',title:'Apply Through MNRE/State Schemes',desc:'Many rural electrification and off-grid solar schemes route through state nodal agencies, panchayats or empanelled NGOs.'},
+    {year:'Step 4',title:'Community Ownership Model',desc:'Set up clear metering, billing and a local maintenance fund so the community can sustain the system long-term.'},
+    {year:'Step 5',title:'Train a Local Technician',desc:'A trained village-level operator for basic upkeep avoids long downtimes waiting for outside help.'},
+    {year:'Step 6',title:'Scale to Nearby Hamlets',desc:'Once one site succeeds, the same model and learnings extend quickly to neighbouring unconnected areas.'}
+  ]},
+  utility:{heading:'Roadmap — Utility-Scale & Floating Solar',steps:[
+    {year:'Step 1',title:'Resource Assessment',desc:'Study solar irradiance, land availability or reservoir suitability, and proximity to the nearest grid substation.'},
+    {year:'Step 2',title:'Tender & PPA Bidding',desc:'Developers bid through SECI or state agencies; the lowest sustainable tariff usually wins the long-term power purchase agreement.'},
+    {year:'Step 3',title:'Clearances',desc:'Environmental, land and grid-connectivity approvals are secured before construction can begin.'},
+    {year:'Step 4',title:'EPC Construction',desc:'Large-scale procurement and construction of panels, inverters, mounting structures and transmission infrastructure.'},
+    {year:'Step 5',title:'Grid Synchronisation',desc:'The plant is tested and synchronised with the grid before commercial operation begins.'},
+    {year:'Step 6',title:'25-Year Operations',desc:'The plant supplies power under its PPA for decades, with regular monitoring, cleaning and performance optimisation.'}
+  ]},
+  mobility:{heading:'Roadmap — Solar Mobility Adoption',steps:[
+    {year:'Step 1',title:'Pilot Deployment',desc:'Start with a small pilot — a solar charging station, a highway stretch, or a single solar-assisted vehicle or boat.'},
+    {year:'Step 2',title:'Technology Selection',desc:'Choose the right panel type, battery buffer and charging standard suited to the use case and local conditions.'},
+    {year:'Step 3',title:'Funding & Partnerships',desc:'Most projects combine government schemes, private investment and sometimes public-private partnerships.'},
+    {year:'Step 4',title:'Installation',desc:'Set up charging points, embedded road panels or vessel-mounted systems at the chosen pilot sites.'},
+    {year:'Step 5',title:'Performance Monitoring',desc:'Track real-world energy generation, usage patterns and durability under actual traffic or water conditions.'},
+    {year:'Step 6',title:'Scale-Up',desc:'Successful pilots expand into wider corridors or fleets, informing national solar mobility policy.'}
+  ]},
+  emerging:{heading:'Roadmap — From Lab to Market',steps:[
+    {year:'Step 1',title:'Lab-Scale Research',desc:'New materials and designs are first tested at research institutes, IITs and national labs such as NISE.'},
+    {year:'Step 2',title:'Pilot Manufacturing',desc:'Promising technology moves to a small pilot production line to test manufacturability at a slightly larger scale.'},
+    {year:'Step 3',title:'Field Trials',desc:'Prototype panels or cells are installed in real outdoor conditions to test durability, efficiency and degradation over time.'},
+    {year:'Step 4',title:'Certification',desc:'Products must pass BIS and ALMM certification standards before they can be sold commercially in India.'},
+    {year:'Step 5',title:'Commercial Scale-Up',desc:'Successful technologies attract investment for full-scale manufacturing, gradually reducing per-unit cost.'},
+    {year:'Step 6',title:'Mainstream Adoption',desc:'The technology becomes a standard option alongside conventional panels — much like bifacial panels have recently become.'}
+  ]}
+};
+
+const QUIZ = [
+  {q:'Which part of daily life makes you think about solar energy the most?',opts:[{t:'Cutting my own home electricity bill',s:'home'},{t:'Making my shop, office or factory more efficient',s:'commercial'},{t:'Helping farmers irrigate without diesel',s:'agri'},{t:'Heating water or cooking using sunlight',s:'thermal'},{t:'Bringing power to villages with no grid',s:'offgrid'},{t:'Huge power plants that light up entire cities',s:'utility'}]},
+  {q:'Which government solar scheme excites you the most?',opts:[{t:'PM Surya Ghar — free electricity for homes',s:'home'},{t:'PM-KUSUM — solar pumps for farmers',s:'agri'},{t:'Solar Parks & Ultra Mega Power Projects',s:'utility'},{t:'Rural electrification & mini-grids',s:'offgrid'},{t:'EV charging infrastructure schemes',s:'mobility'},{t:'R&D grants for new solar materials',s:'emerging'}]},
+  {q:'What kind of problem do you enjoy solving?',opts:[{t:'Reducing a household\'s monthly expenses',s:'home'},{t:'Making a business more profitable',s:'commercial'},{t:'Replacing fuel-thirsty diesel engines',s:'agri'},{t:'Designing better heating systems',s:'thermal'},{t:'Connecting unconnected, remote places',s:'offgrid'},{t:'Inventing tomorrow\'s technology',s:'emerging'}]},
+  {q:'How big do you like to think?',opts:[{t:'One rooftop at a time',s:'home'},{t:'One factory or campus at a time',s:'commercial'},{t:'One village at a time',s:'offgrid'},{t:'One state-level power park at a time',s:'utility'},{t:'One highway or transport corridor at a time',s:'mobility'},{t:'One lab breakthrough at a time',s:'emerging'}]},
+  {q:'Which everyday solar product would you want to own first?',opts:[{t:'Rooftop solar panel system',s:'home'},{t:'Solar water heater for the kitchen',s:'thermal'},{t:'Solar irrigation pump',s:'agri'},{t:'Solar lantern or street light',s:'offgrid'},{t:'Solar EV charger',s:'mobility'},{t:'A next-gen flexible solar panel',s:'emerging'}]},
+  {q:'What matters most to you about solar energy?',opts:[{t:'Saving money on my own bills',s:'home'},{t:'Business profit & sustainability',s:'commercial'},{t:'Supporting farmers\' incomes',s:'agri'},{t:'Energy access for everyone',s:'offgrid'},{t:'India\'s clean energy independence',s:'utility'},{t:'Pushing the boundaries of technology',s:'emerging'}]}
+];
+
+const QUIZ_RESULTS = {
+  home:{emoji:'🏠',title:'Residential Solar Champion',desc:'You think practically and close to home. Rooftop solar — backed by schemes like PM Surya Ghar — is where you would make the biggest difference first.'},
+  commercial:{emoji:'🏭',title:'Commercial & Industrial Solar Driver',desc:'You think in terms of business efficiency. Captive plants, open access and net-metered rooftops are where your impact and savings would be greatest.'},
+  agri:{emoji:'🌾',title:'Agri-Solar Advocate',desc:'You care about rural livelihoods. Solar pumps and farm-level solar under schemes like PM-KUSUM are where you would create the most value.'},
+  thermal:{emoji:'☀️',title:'Solar Thermal Enthusiast',desc:'You like simple, direct solutions. Solar water heaters, cookers and dryers — turning sunlight straight into heat — suit your hands-on mindset.'},
+  offgrid:{emoji:'💡',title:'Rural Electrification Champion',desc:'You care about energy access for everyone. Mini-grids, home lighting systems and solar lanterns are where you could change lives the most.'},
+  utility:{emoji:'🌐',title:'Utility-Scale Visionary',desc:'You think at a national scale. Solar parks, floating plants and PPAs — the backbone of India\'s 150+ GW solar capacity — are your natural arena.'},
+  mobility:{emoji:'🚗',title:'Solar Mobility Pioneer',desc:'You are drawn to the next frontier. EV charging, solar vehicles and emerging transport tech are where your curiosity would lead you.'},
+  emerging:{emoji:'🔬',title:'Emerging Tech Innovator',desc:'You are a builder at heart. Perovskite cells, BIPV and next-gen materials are where your problem-solving could shape solar\'s future.'}
+};
+
+const SCHOLARSHIPS = [
+  {title:'PM Surya Ghar Muft Bijli Yojana',amt:'Up to ₹78,000 subsidy',desc:'Flagship rooftop solar scheme for households — central subsidy on 1–3kW+ systems, plus up to 300 units of free electricity every month.',eli:'Indian citizen | Own house with roof space | Valid DISCOM connection | Apply at pmsuryaghar.gov.in'},
+  {title:'PM-KUSUM Yojana',amt:'Up to 60% subsidy',desc:'Solar pumps and solarised agricultural connections for farmers, with an additional 30% available as a low-interest loan to cover the rest.',eli:'Individual farmers, cooperatives, FPOs and panchayats | State nodal agency registration'},
+  {title:'Solar Parks & Ultra Mega Solar Power Projects',amt:'40 GW target capacity',desc:'Central scheme supporting large-scale solar parks across states — over 50 parks with nearly 40,000 MW capacity approved so far.',eli:'State governments & developers | Land aggregation via state nodal agencies | Open to private investment'},
+  {title:'Rooftop Solar Programme — Institutions',amt:'CFA for govt/educational bodies',desc:'Central Financial Assistance for government buildings, schools, colleges and hospitals to install net-metered rooftop solar systems.',eli:'Govt & semi-govt institutions | Educational campuses | Healthcare facilities'},
+  {title:'Off-Grid & Decentralised Solar Applications',amt:'CFA on lanterns, SHLS & street lights',desc:'Subsidy support for solar lanterns, home lighting systems and solar street lights aimed at unconnected and rural households.',eli:'Rural & remote households | Routed via state agencies and empanelled vendors'},
+  {title:'PLI Scheme — High Efficiency Solar PV Modules',amt:'₹24,000 crore outlay',desc:'Production-linked incentive paid to manufacturers over five years to build domestic, high-efficiency solar module manufacturing capacity.',eli:'Solar PV module manufacturers | Selected via competitive bidding | MNRE / IREDA / SECI'},
+  {title:'Accelerated Depreciation Benefit',amt:'40% depreciation in Year 1',desc:'A tax incentive letting businesses claim 40% depreciation on solar assets in the first year, significantly improving project payback.',eli:'Businesses & industries installing captive solar plants | Subject to applicable tax rules'},
+  {title:'Net Metering Policy (State DISCOMs)',amt:'Unit credit, state-dependent',desc:'Allows rooftop solar owners to export surplus units to the grid and draw them back later, effectively using the grid as free storage.',eli:'Rooftop solar system owners | Policy and caps vary by state DISCOM'},
+  {title:'State Top-Up Subsidies',amt:'e.g. additional ₹17,000 (Rajasthan)',desc:'Several states add their own top-up subsidy on top of the central PM Surya Ghar amount to further reduce the cost for residents.',eli:'State domicile required | Apply alongside the central scheme'},
+  {title:'PM Surya Ghar Concessional Bank Loans',amt:'Low-interest loans via PSBs',desc:'Public Sector Banks offer collateral-free, concessional-rate loans to cover the balance cost of rooftop solar after subsidy.',eli:'PM Surya Ghar registered applicants | Available through participating Public Sector Banks'},
+  {title:'National Green Hydrogen Mission (Solar-linked)',amt:'Strategic interlinkage',desc:'Cheap solar power is a key input for green hydrogen production, and this mission is driving demand for new utility-scale solar capacity.',eli:'Industrial hydrogen producers | Renewable energy developers | Large-scale solar-to-hydrogen projects'},
+  {title:'International Solar Alliance (ISA)',amt:'Global cooperation framework',desc:'An India-led international treaty body promoting solar deployment, technology sharing and financing across sun-rich member countries.',eli:'Member nations between the Tropics of Cancer & Capricorn | Open to all UN member states'}
+];
+
+const MENTORS = [
+  {initials:'RK',color:'#185fa5',name:'Ravi Kumar',role:'Homeowner, Hyderabad · PM Surya Ghar beneficiary',quote:'My ₹2,400 monthly bill is now zero. The subsidy made the decision easy — I wish I had installed it three years earlier.',topic:'Ask about: PM Surya Ghar application, net metering, payback time'},
+  {initials:'SD',color:'#0f6e56',name:'Sunita Devi',role:'Farmer, Andhra Pradesh · PM-KUSUM pump owner',quote:'I used to spend on diesel every week for irrigation. Now the sun does the work, and I even sell extra power back to the DISCOM.',topic:'Ask about: PM-KUSUM components, subsidy process, pump sizing'},
+  {initials:'AV',color:'#993c1d',name:'Arvind Varma',role:'Solar EPC Site Engineer · 6 yrs experience',quote:'Every rao',role:'Renewable Energy Officer · State Nodal Agency',quote:'Every week I see new solar park approvals and rooftop applications. India\'s 150 GW milestone is just the beginning of this decade.',topic:'Ask about: govt schemes, solar park approvals, policy careers'}
+];
+  /* ================================================================
+   STATE & FUNCTIONS
+   ================================================================ */
+let cs='home', cr='home', cq=0, sel=null;
+let scores={home:0,commercial:0,agri:0,thermal:0,offgrid:0,utility:0,mobility:0,emerging:0};
+
+function showPage(p){
+  ['solutions','roadmap','quiz','schemes','champions'].forEach(x=>{
+    document.getElementById('page-'+x).classList.toggle('show',x===p);
+  });
+  document.querySelectorAll('.navbtn').forEach((b,i)=>{
+    b.classList.toggle('act',['solutions','roadmap','quiz','schemes','champions'][i]===p);
+  });
+}
+
+function selectSector(s){
+  cs=s;
+  document.querySelectorAll('[id^="stab-"]').forEach(e=>e.classList.remove('act'));
+  document.getElementById('stab-'+s).classList.add('act');
+  renderSolutions(s);
+}
+
+function renderSolutions(s){
+  const d=SOLAR[s];
+  document.getElementById('solHeading').textContent=d.heading;
+  document.getElementById('solList').innerHTML=d.careers.map((c,i)=>`
+    <div class="ccard" id="cc${i}" onclick="toggleCard(${i})">
+      <div class="crow">
+        <div class="cicn" style="background:${c.bg}">${c.icon}</div>
+        <div class="ctitle">${c.title}</div>
+        <span class="cbadge">${c.badge}</span>
+        <span class="carr">›</span>
+      </div>
+      <div class="cdetail">
+        <p class="csub">${c.sub}</p>
+        <div class="dtags">${c.tags.map(t=>`<span class="dtag ${t.c}">${t.t}</span>`).join('')}</div>
+        <div class="scopebar">
+          <div class="sbrow"><span>Adoption &amp; growth potential</span><strong>${c.scope}%</strong></div>
+          <div class="bar"><div class="bf" style="width:${c.scope}%"></div></div>
+        </div>
+        <div class="dg2">
+          <div class="dbox">
+            <div class="dh g">Benefits</div>
+            ${c.gains.map(g=>`<div class="drow g">${g}</div>`).join('')}
+          </div>
+          <div class="dbox">
+            <div class="dh r">Challenges</div>
+            ${c.struggles.map(g=>`<div class="drow r">${g}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleCard(i){document.getElementById('cc'+i).classList.toggle('open');}
+
+function selectRoadmap(s){
+  cr=s;
+  document.querySelectorAll('[id^="rtab-"]').forEach(e=>e.classList.remove('act'));
+  document.getElementById('rtab-'+s).classList.add('act');
+  const d=ROADMAPS[s];
+  document.getElementById('rmHeading').textContent=d.heading;
+  document.getElementById('rmList').innerHTML=d.steps.map(st=>`
+    <div class="rmstep">
+      <div class="ryear">${st.year}</div>
+      <div class="rtitle">${st.title}</div>
+      <div class="rdesc">${st.desc}</div>
+    </div>`).join('');
+}
+
+function renderQuiz(){
+  if(cq>=QUIZ.length){showResult();return;}
+  const q=QUIZ[cq];
+  document.getElementById('qprog').style.width=((cq/QUIZ.length)*100)+'%';
+  document.getElementById('qnum').textContent=`Question ${cq+1} of ${QUIZ.length}`;
+  document.getElementById('qtext').textContent=q.q;
+  document.getElementById('qresult').style.display='none';
+  document.getElementById('qnext').style.display='';
+  sel=null;
+  document.getElementById('qnext').disabled=true;
+  document.getElementById('qopts').innerHTML=q.opts.map((o,i)=>`
+    <button class="qopt" onclick="pickOpt(${i},'${o.s}')">${o.t}</button>`).join('');
+}
+
+function pickOpt(i,sector){
+  document.querySelectorAll('.qopt').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('.qopt')[i].classList.add('sel');
+  sel=sector;
+  document.getElementById('qnext').disabled=false;
+}
+
+function nextQ(){
+  if(sel)scores[sel]++;
+  cq++;
+  renderQuiz();
+}
+
+function showResult(){
+  const top=Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+  const r=QUIZ_RESULTS[top];
+  document.getElementById('qprog').style.width='100%';
+  document.getElementById('qnum').textContent='Quiz complete!';
+  document.getElementById('qtext').textContent='';
+  document.getElementById('qopts').innerHTML='';
+  document.getElementById('qnext').style.display='none';
+  const el=document.getElementById('qresult');
+  el.style.display='block';
+  el.innerHTML=`
+    <div class="big">${r.emoji}</div>
+    <div class="rtitle">Your best-fit solar sector: ${r.title}</div>
+    <div class="rsub">${r.desc}</div>
+    <button class="retake" onclick="retakeQuiz()">Retake Quiz</button>`;
+}
+
+function retakeQuiz(){
+  cq=0;
+  scores={home:0,commercial:0,agri:0,thermal:0,offgrid:0,utility:0,mobility:0,emerging:0};
+  sel=null;
+  renderQuiz();
+}
+
+// INIT
+renderSolutions('home');
+selectRoadmap('home');
+renderQuiz();
+
+document.getElementById('schList').innerHTML=SCHOLARSHIPS.map(s=>`
+  <div class="schcard">
+    <div class="schhead"><div class="schtitle">${s.title}</div><div class="schamt">${s.amt}</div></div>
+    <div class="schdesc">${s.desc}</div>
+    <div class="scheli"><strong>Eligibility:</strong> ${s.eli}</div>
+  </div>`).join('');
+
+document.getElementById('mentList').innerHTML=MENTORS.map(m=>`
+  <div class="mentcard">
+    <div class="mavatar" style="background:${m.color}">${m.initials}</div>
+    <div style="flex:1">
+      <div class="mname">${m.name}</div>
+      <div class="mrole">${m.role}</div>
+      <div class="mqoute">${m.quote}</div>
+      <div class="mtopic">${m.topic}</div>
+    </div>
+  </div>`).join('');
+</script>
+</body>
+</html>
